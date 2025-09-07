@@ -3,98 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Energy Management System - Nepal</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Inter:wght@400&display=swap" rel="stylesheet">
+    <title></title>
 </head>
 <body>
-    <!-- Header Section -->
-    <header class="header">
-        <div class="header-container">
-            <div class="logo">
-                <img src="assets/logo.png" alt="EMS Logo" class="logo-img">
-            </div>
-            
-            <nav class="navigation">
-                <ul class="nav-menu">
-                    <li><a href="#" class="nav-link">Home</a></li>
-                    <li><a href="#" class="nav-link">Simulation</a></li>
-                    <li><a href="#" class="nav-link">Charts</a></li>
-                    <li><a href="#" class="nav-link">About</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    <h2 class="province-name">Bagmati Province</h2>
-                <div class="live-indicator">
-                        <div class="live-dot"></div>
-                        <span class="live-text">LIVE</span>
-   
-                        <div class="province-info">
-                    
-                    <div class="data-cards">
-                        <div class="data-card">
-                            <h3 class="data-label">Current Load</h3>
-                            <div class="data-value">534 MW</div>
-                        </div>
-                        <div class="data-card">
-                            <h3 class="data-label">Demand</h3>
-                            <div class="data-value">540 MW</div>
-                        </div>
-                        <div class="data-card">
-                            <h3 class="data-label">Supply Capacity</h3>
-                            <div class="data-value">642 MW</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-<main class="main-content">
-        <!-- Province Selection Section -->
-        <section class="province-section">
-            <div class="province-container">
-                <div class="province-header">
-                    <h1 class="province-title">Nepal Province Map - Clickable Province</h1>
-                </div>
-        <!-- Map Section -->
-        <section class="map-section">
-            <div class="map-container">
-                <div class="map-wrapper">
-                    <img src="assets/nepal-map.svg" alt="Nepal Province Map" class="nepal-map">
-                </div>
-                
-                <div class="map-controls">
-                    <button class="control-btn speed-btn" data-speed="0.5">0.5X</button>
-                    <button class="control-btn speed-btn active" data-speed="1">1X</button>
-                    <button class="control-btn speed-btn" data-speed="2">2X</button>
-                    
-                    <button class="play-btn">
-                        <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8 5v14l11-7z"/>
-                        </svg>
-                        <span>Start</span>
-                    </button>
-                </div>
-            </div>
-        </section>
+    <h1>Time:</h1>
+    <h1>Time And Date:</h1>
+    <p>
+        date: <span id="y">0</span>-<span id="m">0</span>-<span id="d">0</span>
+    </p>
+    <p>
+        hour: <span id="h">00</span> <span id="ampm">AM</span>
+    </p>
+    <h1>Demand:</h1>
+    <h2>Province 1: </h2>
+        <h3>Public Feeder: <span id="d1">0</span>MW</h3>  
+        <h3>Industry Feeder: <span id="d11">0</span>MW</h3>
+    <h2>Madhesh: 
+        <h3>Public Feeder: <span id="d2">0</span>MW</h3>  
+        <h3>Industry Feeder: <span id="d21">0</span>MW</h3>
+    <h2>Bagmati: 
+        <h3>Public Feeder: <span id="d3">0</span>MW</h3>  
+        <h3>Industry Feeder: <span id="d31">0</span>MW</h3>
+    <h2>Gandaki: 
+        <h3>Public Feeder: <span id="d4">0</span>MW</h3>  
+        <h3>Industry Feeder: <span id="d41">0</span>MW</h3>
+    <h2>Lumbini: 
+        <h3>Public Feeder: <span id="d5">0</span>MW</h3>  
+        <h3>Industry Feeder: <span id="d51">0</span>MW</h3>
+    <h2>Karnali: 
+        <h3>Public Feeder: <span id="d6">0</span>MW</h3>  
+        <h3>Industry Feeder: <span id="d61">0</span>MW</h3>
+    <h2>Sudurpaschim: 
+        <h3>Public Feeder: <span id="d7">0</span>MW</h3>  
+        <h3>Industry Feeder: <span id="d71">0</span>MW</h3>
 
-        <!-- Chart Section -->
-        <section class="chart-section">
-            <div class="chart-container">
-                <div class="chart-wrapper">
-                    <canvas id="energyChart"></canvas>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-container">
-            <p>Nepal Energy Management System | All Rights Reserved | &copy; 2025</p>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+    <h1>Supply:</h1>
+    <h2>Province 1: </h2>
+        <h3>RoR: <span id="s1">0</span>MW</h3>  
+        <h3>Stored: <span id="s11">0</span>MW</h3>
+        <h3>PRoR: <span id="s12">0</span>MW</h3>
+        <h3>Solar: <span id="s13">0</span>MW</h3>
+    <h2>Madhesh: </h2>
+        <h3>RoR: <span id="s2">0</span>MW</h3>  
+        <h3>Stored: <span id="s21">0</span>MW</h3>
+        <h3>PRoR: <span id="s22">0</span>MW</h3>
+        <h3>Solar: <span id="s23">0</span>MW</h3>
+    <h2>Bagmati: </h2>
+        <h3>RoR: <span id="s3">0</span>MW</h3>  
+        <h3>Stored: <span id="s31">0</span>MW</h3>
+        <h3>PRoR: <span id="s32">0</span>MW</h3>
+        <h3>Solar: <span id="s33">0</span>MW</h3>
+    <h2>Gandaki: </h2>
+        <h3>RoR: <span id="s4">0</span>MW</h3>  
+        <h3>Stored: <span id="s41">0</span>MW</h3>
+        <h3>PRoR: <span id="s42">0</span>MW</h3>
+        <h3>Solar: <span id="s43">0</span>MW</h3>
+    <h2>Lumbini: </h2>
+        <h3>RoR: <span id="s5">0</span>MW</h3>  
+        <h3>Stored: <span id="s51">0</span>MW</h3>
+        <h3>PRoR: <span id="s52">0</span>MW</h3>
+        <h3>Solar: <span id="s53">0</span>MW</h3>
+    <h2>Karnali: </h2>
+        <h3>RoR: <span id="s6">0</span>MW</h3>  
+        <h3>Stored: <span id="s61">0</span>MW</h3>
+        <h3>PRoR: <span id="s62">0</span>MW</h3>
+        <h3>Solar: <span id="s63">0</span>MW</h3>
+    <h2>Sudurpaschim: </h2>
+        <h3>RoR: <span id="s7">0</span>MW</h3>  
+        <h3>Stored: <span id="s71">0</span>MW</h3>
+        <h3>PRoR: <span id="s72">0</span>MW</h3>
+        <h3>Solar: <span id="s73">0</span>MW</h3>
+    
 </body>
+<script>
+
+    let c = 0
+
+    function demand(){
+        fetch('/demand')
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) return console.error(data.error);
+            for (let a = 1; a <= 7; a++) {
+                document.getElementById(`d${a}`).textContent  = data[`p${a}`].p;
+                document.getElementById(`d${a}1`).textContent = data[`p${a}`].i;
+            }
+        }).catch(console.error);
+    }
+
+    function supply(){
+        fetch('/supply')
+        .then(r => r.json())
+        .then(data =>{
+            if (data.error) return console.error(data.error);
+            for (let a = 1; a <= 7; a++) {
+                document.getElementById(`s${a}`).textContent   = data[`p${a}`].RoR;
+                document.getElementById(`s${a}1`).textContent  = data[`p${a}`].Storage;
+                document.getElementById(`s${a}2`).textContent  = data[`p${a}`].PRoR;
+                document.getElementById(`s${a}3`).textContent  = data[`p${a}`].Solar;
+            }
+        }).catch(console.error);
+    }
+
+    function time(){
+        fetch("/time")
+        .then(r => r.json())
+        .then(data =>{
+            if (data.error) return console.error(data.error);
+            document.getElementById("y").textContent = data.date.y;
+            document.getElementById("m").textContent = data.date.m;
+            document.getElementById("d").textContent = data.date.d;
+
+            const hour24 = data.time.h;
+            const ampm = hour24 >= 12 ? "PM" : "AM";  
+            let hour12 = hour24 % 12;
+            if (hour12 === 0) hour12 = 12;
+            document.getElementById("h").textContent = hour12.toString().padStart(2, "0");
+            document.getElementById("ampm").textContent = ampm;
+        }).catch(console.error);
+    }
+
+    function update(){
+        time();
+        if (c<20){
+            time();
+            c++
+        }
+        else{
+            demand();
+            supply();
+            c = 0
+        }
+        
+    }
+
+    setInterval(update, 100);
+    update();
+</script>
 </html>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify,send_from_directory
 import time, requests
 
 app = Flask(__name__)
@@ -6,6 +6,9 @@ app = Flask(__name__)
 SIM_BASE = "http://127.0.0.1:5001"
 
 
+@app.route('/assets/<path:filename>')
+def serve_assets(filename):
+    return send_from_directory('templates/assets', filename)
 
 @app.route("/")
 def index():

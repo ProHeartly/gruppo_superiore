@@ -36,7 +36,7 @@ supply_day = {j:{
 initialized_supply = {i: False for i in range(1, 8)}
 initialized_demand = {i: False for i in range(1, 8)}
 
-w = [cal.weather(times) for _ in range(7)]
+
 
 times = {
     "y":2082,
@@ -46,6 +46,7 @@ times = {
     "h":1
 }
 
+w = [cal.weather(times) for _ in range(7)]
 
 def generator(prev_value, max_cap, id, dors, factor=0.2):
     if dors == "s":
@@ -150,12 +151,12 @@ def demand_data():
 @app.route("/get-demand")
 def get_demand():
     global demand_day
-    return jsonify(demand_day)
+    return jsonify(demand)
 
 @app.route("/get-supply")
 def get_supply():
     global supply_day
-    return jsonify(supply_day)
+    return jsonify(supply)
 
 
 if __name__ == "__main__":
