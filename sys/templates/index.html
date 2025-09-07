@@ -36,6 +36,13 @@
         <section class="province-section">
             <div class="province-header">
                 <h2 class="province-name">Bagmati Province</h2>
+                <div class="datetime">
+                    <span class="date-text">Date<i class="fa-solid fa-arrow-right"></i></span>
+                    <div class="datetime-hour">
+                        <input type="date" required placeholder="Enter the date" />
+                    
+                    </div>
+                </div>
                 <div class="live-indicator">
                     <div class="live-dot"></div>
                     <span class="live-text">LIVE</span>
@@ -419,6 +426,19 @@
                 </div>
             </section>
 
+            <section class="chart-section">
+                <div class="chart-header">
+                    <h2 class="chart-title">Energy Consumption Trend</h2>
+                    <div class="chart-tabs">
+                        <div class="chart-tab active" data-chart="line">Line</div>
+                        <div class="chart-tab" data-chart="bar">Bar</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="lineChart2"></canvas>
+                </div>
+            </section>
+
             <!-- Bar Chart -->
             <section class="chart-section">
                 <div class="chart-header">
@@ -453,7 +473,6 @@
                     <h2 class="chart-title">Regional Comparison</h2>
                     <div class="chart-tabs">
                         <div class="chart-tab active" data-chart="radar">Radar</div>
-                        <div class="chart-tab" data-chart="polar">Polar</div>
                     </div>
                 </div>
                 <div class="chart-container">
@@ -472,6 +491,5 @@
         </div>
     </footer>
 </section>
-
 </body>
 </html>
