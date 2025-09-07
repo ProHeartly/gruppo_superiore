@@ -66,7 +66,6 @@ def weather(date):
     return random.choices(weather_types, weights=weights, k=1)[0]
 
 def event(weather):
-
     if weather == "rainy":
         e = random.choices(["flood", ""], weights=[0.2, 0.8])
     elif weather == "sunny":
