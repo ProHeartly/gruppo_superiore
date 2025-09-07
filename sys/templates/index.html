@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Management System - Nepal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Inter:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="assets/logo.png" alt="EMS Logo" class="logo-img">
+            </div>
+            
+            <nav class="navigation">
+                <ul class="nav-menu">
+                    <li><a href="#" class="nav-link">Home</a></li>
+                    <li><a href="#" class="nav-link">Simulation</a></li>
+                    <li><a href="#" class="nav-link">Charts</a></li>
+                    <li><a href="#" class="nav-link">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <h2 class="province-name">Bagmati Province</h2>
+                <div class="live-indicator">
+                        <div class="live-dot"></div>
+                        <span class="live-text">LIVE</span>
+   
+                        <div class="province-info">
+                    
+                    <div class="data-cards">
+                        <div class="data-card">
+                            <h3 class="data-label">Current Load</h3>
+                            <div class="data-value">534 MW</div>
+                        </div>
+                        <div class="data-card">
+                            <h3 class="data-label">Demand</h3>
+                            <div class="data-value">540 MW</div>
+                        </div>
+                        <div class="data-card">
+                            <h3 class="data-label">Supply Capacity</h3>
+                            <div class="data-value">642 MW</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+<main class="main-content">
+        <!-- Province Selection Section -->
+        <section class="province-section">
+            <div class="province-container">
+                <div class="province-header">
+                    <h1 class="province-title">Nepal Province Map - Clickable Province</h1>
+                </div>
+        <!-- Map Section -->
+        <section class="map-section">
+            <div class="map-container">
+                <div class="map-wrapper">
+                    <img src="assets/nepal-map.svg" alt="Nepal Province Map" class="nepal-map">
+                </div>
+                
+                <div class="map-controls">
+                    <button class="control-btn speed-btn" data-speed="0.5">0.5X</button>
+                    <button class="control-btn speed-btn active" data-speed="1">1X</button>
+                    <button class="control-btn speed-btn" data-speed="2">2X</button>
+                    
+                    <button class="play-btn">
+                        <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        <span>Start</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chart Section -->
+        <section class="chart-section">
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="energyChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>Nepal Energy Management System | All Rights Reserved | &copy; 2025</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
