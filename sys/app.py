@@ -46,6 +46,109 @@ def fair_cut_sys(demand, supply, current):
         for i in range(1,8):
             current[i] = current[i]*(1-(demand - supply)/7)
     
+# === Forecast/Prophet API ===
+from flask import request
+import sqlite3, pandas as pd, numpy as np
+from prophet import Prophet
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from math import sqrt
+import pickle, os
+
+DB_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data.db")
+MODEL_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "demand_prophet_model.pkl")
+
+def _load_data():
+    conn = sqlite3.connect(DB_PATH)
+    df = pd.read_sql("SELECT * FROM demand", conn)
+    conn.close()
+    # parse AD dates
+    df["date_ad"] = pd.to_datetime(df["day"], errors="coerce")
+    df = df.dropna(subset=["date_ad"])
+    df["ds"] = df["date_ad"] + pd.to_timedelta(df["hour"], unit="h")
+    df["y"] = df["public"] + df["industry"]
+    df = df[["ds","y"]].dropna().sort_values("ds")
+    # remove duplicates on ds
+    df = df.groupby("ds", as_index=False)["y"].sum()
+    return df
+
+def _holdout_metrics(df):
+    # Use last 20% (min 48 hours) as test
+    n = len(df)
+    if n < 100:
+        split = max(48, int(n*0.2))
+    else:
+        split = int(n*0.2)
+    train = df.iloc[: n - split].copy()
+    test = df.iloc[n - split :].copy()
+
+    m = Prophet()
+    m.fit(train.rename(columns={"ds":"ds","y":"y"}))
+    future = test[["ds"]].copy()
+    fc = m.predict(future)
+    y_true = test["y"].values
+    y_pred = fc["yhat"].values
+
+    mae = float(mean_absolute_error(y_true, y_pred))
+    rmse = float(sqrt(mean_squared_error(y_true, y_pred)))
+    with np.errstate(divide="ignore", invalid="ignore"):
+        mape = float(np.mean(np.abs((y_true - y_pred) / np.where(y_true==0, np.nan, y_true))) * 100)
+    # Replace nan mape with None
+    mape = None if np.isnan(mape) else mape
+    r2 = float(r2_score(y_true, y_pred))
+
+    return {"MAE": mae, "RMSE": rmse, "MAPE": mape, "R2": r2}
+
+def _load_or_train_full(df):
+    # Try load saved model; if missing, train on full data
+    model = None
+    if os.path.exists(MODEL_PATH):
+        try:
+            with open(MODEL_PATH, "rb") as f:
+                model = pickle.load(f)
+        except Exception:
+            model = None
+    if model is None:
+        model = Prophet()
+        model.fit(df.copy())
+        with open(MODEL_PATH, "wb") as f:
+            pickle.dump(model, f)
+    return model
+
+@app.route("/api/forecast")
+def api_forecast():
+    hours = int(request.args.get("period_hours", 168))
+    df = _load_data()
+    if df.empty:
+        return jsonify({"error":"no data"}), 400
+
+    # Metrics via holdout
+    metrics = _holdout_metrics(df)
+
+    # Full model for future forecast
+    model = _load_or_train_full(df)
+    last_ds = df["ds"].max()
+    # Build future periods (only into the future)
+    future = model.make_future_dataframe(periods=hours, freq="H")
+    fc = model.predict(future)
+
+    # Prepare outputs
+    history = df.tail(24*14)  # send 14 days history to plot
+    hist_payload = [{"ds": d.isoformat(), "y": float(y)} for d, y in zip(history["ds"], history["y"])]
+    # Take only the *future* rows beyond last observed
+    fc_future = fc[fc["ds"] > last_ds].copy()
+    fc_payload = [{
+        "ds": d.isoformat(),
+        "yhat": float(y),
+        "yhat_lower": float(l),
+        "yhat_upper": float(u)
+    } for d, y, l, u in zip(fc_future["ds"], fc_future["yhat"], fc_future["yhat_lower"], fc_future["yhat_upper"])]
+
+    return jsonify({
+        "history": hist_payload,
+        "forecast": fc_payload,
+        "metrics": metrics
+    })
+
 
 
 

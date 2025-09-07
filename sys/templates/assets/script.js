@@ -8,7 +8,80 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Control buttons functionality
   initializeControls();
+  // Load Prophet forecast
+  loadForecast();
 });
+
+
+// === Prophet Forecast Integration ===
+async function loadForecast() {
+  try {
+    const res = await fetch('/api/forecast?period_hours=168');
+    const payload = await res.json();
+    if (!payload || payload.error) {
+      console.error('Forecast error', payload);
+      return;
+    }
+
+    // Fill metrics
+    const m = payload.metrics || {};
+    const fmt = (v, unit='') => (v === null || v === undefined || Number.isNaN(v)) ? '—' : (unit==='%'? (v.toFixed(1) + unit) : (v.toFixed(2)));
+    const maeEl = document.getElementById('metric-mae'); if (maeEl) maeEl.textContent = fmt(m.MAE);
+    const rmseEl = document.getElementById('metric-rmse'); if (rmseEl) rmseEl.textContent = fmt(m.RMSE);
+    const mapeEl = document.getElementById('metric-mape'); if (mapeEl) mapeEl.textContent = m.MAPE==null? '—' : (m.MAPE.toFixed(1)+'%');
+    const r2El = document.getElementById('metric-r2'); if (r2El) r2El.textContent = fmt(m.R2);
+
+    // Prepare series
+    const hist = payload.history || [];
+    const fc = payload.forecast || [];
+
+    // Build arrays
+    const histLabels = hist.map(d => d.ds);
+    const histY = hist.map(d => d.y);
+    const fcLabels = fc.map(d => d.ds);
+    const fcY = fc.map(d => d.yhat);
+
+    // Merge labels: last history + future forecast
+    const labels = histLabels.concat(fcLabels);
+
+    // Update Hourly chart to show actuals + forecast
+    const chart = window.allCharts?.line2Chart;
+    if (!chart) return;
+    chart.data.labels = labels;
+
+    // Replace datasets with two lines
+    chart.data.datasets = [
+      {
+        label: 'Actual (last 14 days)',
+        data: histY,
+        borderColor: '#8400EC',
+        backgroundColor: 'rgba(132, 0, 236, 0.1)',
+        borderWidth: 2,
+        tension: 0.3,
+        fill: false,
+        pointRadius: 0
+      },
+      {
+        label: 'Prophet Forecast (next 7 days)',
+        data: new Array(histY.length).fill(null).concat(fcY),
+        borderColor: 'rgba(34, 140, 98, 1)',
+        backgroundColor: 'rgba(34, 140, 98, 0.15)',
+        borderDash: [6, 4],
+        borderWidth: 2,
+        tension: 0.3,
+        fill: false,
+        pointRadius: 0
+      }
+    ];
+    chart.update();
+
+    // Set a flag so live jitter doesn't override the forecast chart
+    window.forecastLoaded = true;
+  } catch (e) {
+    console.error('Failed loading forecast', e);
+  }
+}
+
 
 // ======== Shared state ========
 let liveTimer = null;
