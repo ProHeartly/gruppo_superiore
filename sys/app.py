@@ -46,7 +46,11 @@ def fair_cut_sys(demand, supply, current):
         for i in range(1,8):
             current[i] = current[i]*(1-(demand - supply)/7)
     
-# === Forecast/Prophet API ===
+"""
+            MAIN FILE ENDS HERE, ML AFTER THIS
+"""
+
+
 from flask import request
 import sqlite3, pandas as pd, numpy as np
 from prophet import Prophet
@@ -61,18 +65,16 @@ def _load_data():
     conn = sqlite3.connect(DB_PATH)
     df = pd.read_sql("SELECT * FROM demand", conn)
     conn.close()
-    # parse AD dates
     df["date_ad"] = pd.to_datetime(df["day"], errors="coerce")
     df = df.dropna(subset=["date_ad"])
     df["ds"] = df["date_ad"] + pd.to_timedelta(df["hour"], unit="h")
     df["y"] = df["public"] + df["industry"]
     df = df[["ds","y"]].dropna().sort_values("ds")
-    # remove duplicates on ds
     df = df.groupby("ds", as_index=False)["y"].sum()
     return df
 
 def _holdout_metrics(df):
-    # Use last 20% (min 48 hours) as test
+    
     n = len(df)
     if n < 100:
         split = max(48, int(n*0.2))
@@ -92,14 +94,14 @@ def _holdout_metrics(df):
     rmse = float(sqrt(mean_squared_error(y_true, y_pred)))
     with np.errstate(divide="ignore", invalid="ignore"):
         mape = float(np.mean(np.abs((y_true - y_pred) / np.where(y_true==0, np.nan, y_true))) * 100)
-    # Replace nan mape with None
+    
     mape = None if np.isnan(mape) else mape
     r2 = float(r2_score(y_true, y_pred))
 
     return {"MAE": mae, "RMSE": rmse, "MAPE": mape, "R2": r2}
 
 def _load_or_train_full(df):
-    # Try load saved model; if missing, train on full data
+    
     model = None
     if os.path.exists(MODEL_PATH):
         try:
@@ -121,20 +123,16 @@ def api_forecast():
     if df.empty:
         return jsonify({"error":"no data"}), 400
 
-    # Metrics via holdout
     metrics = _holdout_metrics(df)
 
-    # Full model for future forecast
     model = _load_or_train_full(df)
     last_ds = df["ds"].max()
-    # Build future periods (only into the future)
     future = model.make_future_dataframe(periods=hours, freq="H")
     fc = model.predict(future)
 
-    # Prepare outputs
-    history = df.tail(24*14)  # send 14 days history to plot
+    history = df.tail(24*14) 
     hist_payload = [{"ds": d.isoformat(), "y": float(y)} for d, y in zip(history["ds"], history["y"])]
-    # Take only the *future* rows beyond last observed
+    
     fc_future = fc[fc["ds"] > last_ds].copy()
     fc_payload = [{
         "ds": d.isoformat(),
