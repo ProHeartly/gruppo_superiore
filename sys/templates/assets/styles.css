@@ -443,7 +443,100 @@ input:focus {
             height: 400px;
             width: 100%;
         }
+        .contact-section{
+            margin-left: 44px;
+            margin-right: 44px;
+            border-radius: 12px;
+            display: flex;
+            height: 250px;
+            background-color: var(--primary-purple);
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
 
+        .contact-section h2{
+            position: relative;
+            padding-top: 30px;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .contact-section .contr{
+            margin-left: 460px;
+            border-radius: 2px;
+            position: absolute;
+            width: 30%;
+            text-align: center;
+            padding-top: 30px;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+         .left-contact {
+            padding-bottom: 89px;
+            padding-left: 100px;
+            margin-bottom: 25px;
+            text-align: center;
+    align-items: center;
+    display: flex;
+    list-style: none;
+         }
+         .left-contact span {
+            text-align: left;
+    display: flex;
+         }
+
+         .left-contact h2 {
+            padding-top: 150px;
+            font-size: 1.0rem;
+         }
+
+         .middle-contact {
+            padding-bottom: 89px;
+            margin-left: 40px;
+            padding-left: 130px;
+            margin-bottom: 25px;
+            text-align: center;
+    align-items: center;
+    display: flex;
+    list-style: none;
+    gap: 410px;
+         }
+         .middle-contact span {
+            text-align: center;
+    display: flex;
+         }
+
+         .middle-contact h2 {
+                        padding-top: 150px;
+            font-size: 1.0rem;
+         }
+
+         .right-contact {
+            padding-bottom: 89px;
+            padding-left: 160px;
+            margin-bottom: 25px;
+            text-align: center;
+    align-items: center;
+    display: flex;
+    list-style: none;
+    gap: 410px;
+         }
+         .right-contact span {
+            text-align: center;
+    display: flex;
+         }
+
+         .right-contact h2 {
+         padding-top: 150px;
+            font-size: 1.0rem;
+         }
         .footer {
             background-color: var(--primary-purple);
             color: var(--text-light);
