@@ -465,3 +465,11 @@ function showProvinceInfo(message) {
     setTimeout(() => { if (notification && notification.parentNode) notification.parentNode.removeChild(notification); }, 300);
   }, 2000);
 }
+
+setInterval(() => {
+  updateDataValues(
+    randInt(400, 650),  
+    randInt(450, 700),   
+    randInt(550, 800)    
+  );
+}, 2500);
