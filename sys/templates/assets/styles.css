@@ -23,7 +23,7 @@
             color: var(--text-dark);
             line-height: 1.6;
             overflow-x: hidden;
-              padding-top: 80px; /* adjust to your navbar height so content doesn’t overlap */
+              padding-top: 80px; 
 scroll-behavior: smooth;
         }
 
@@ -31,7 +31,6 @@ scroll-behavior: smooth;
   scroll-behavior: smooth;
 }
 
-        /* Layout */
         .container {
 
             max-width: 1400px;
@@ -49,8 +48,6 @@ scroll-behavior: smooth;
         .full-width {
             grid-column: 1 / -1;
         }
-
-        /* Header Styles */
         .header {
             position: fixed;
                top: 0;
@@ -390,7 +387,7 @@ input:focus {
             background-color: var(--light-green);
         }
 
-        /* Chart Section */
+        
         .chart-section {
             background: var(--card-bg);
     border-radius: 15px;
@@ -447,7 +444,6 @@ input:focus {
             width: 100%;
         }
 
-        /* Footer */
         .footer {
             background-color: var(--primary-purple);
             color: var(--text-light);
@@ -456,7 +452,6 @@ input:focus {
             margin-top: 50px;
         }
 
-        /* Responsive Design */
         @media (max-width: 1200px) {
             .dashboard {
                 grid-template-columns: 1fr;
