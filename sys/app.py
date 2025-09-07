@@ -41,6 +41,11 @@ def demand():
         return jsonify(f"Error: {e}") 
 
 
+def fair_cut_sys(demand, supply, current):
+    if demand > supply:
+        for i in range(1,8):
+            current[i] = current[i]*(1-(demand - supply)/7)
+    
 
 
 
