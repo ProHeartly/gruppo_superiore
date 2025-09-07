@@ -1,40 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulation</title>
-</head>
-<body>
-    <h1>Time And Date:</h1>
-    <p>
-        date: <span id="y">0</span>-<span id="m">0</span>-<span id="d">0</span>
-    </p>
-    <p>
-        hour: <span id="h">00</span> <span id="ampm">AM</span>
-    </p>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Simulator Dashboard</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Simulator Dashboard</h1>
+    </header>
+    <h1 id="t">0000-00-00, hour: 00</h1>
 
-<script>
-    function time(){
-        fetch("/time")
-        .then(response => response.json())
-        .then(data =>{
-            document.getElementById("y").textContent = data.date.y;
-            document.getElementById("m").textContent = data.date.m;
-            document.getElementById("d").textContent = data.date.d;
-
-            let hour24 = data.time.h;
-            let ampm = hour24 > 12 ? "PM" : "AM";
-            let hour12 = hour24 % 12;
-            if (hour12 === 0) hour12 = 12;
-            let padded = hour12.toString().padStart(2, "0");
-
-            document.getElementById("h").textContent = padded;
-            document.getElementById("ampm").textContent = ampm;
-        })
-    }
-    setInterval(time, 100); 
-    time();
-</script>
-</body>
+    <script src="assets/sim.js"></script>
+  </body>
 </html>

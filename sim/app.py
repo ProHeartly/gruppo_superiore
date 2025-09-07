@@ -1,4 +1,4 @@
-from flask import Flask, render_template,jsonify
+from flask import Flask, render_template,jsonify, send_from_directory
 import cal, random
 
 app = Flask(__name__)
@@ -6,37 +6,33 @@ app = Flask(__name__)
 days_of_week = ["","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
 demand_model = {
-    1: {"p": 120, "ic": 170, "in": 50},
-    2: {"p": 140, "ic": 200, "in": 100},
-    3: {"p": 250, "ic": 500, "in": 200},
-    4: {"p": 110, "ic": 330, "in": 170},
-    5: {"p": 150, "ic": 240, "in": 150},
-    6: {"p": 100, "ic": 200, "in": 120},
-    7: {"p":  90, "ic": 220, "in": 70}
-}
+    1: {'p': 2120.0, 'ic': 1590.0, 'in': 1590.0},
+    2: {'p': 1824.0, 'ic': 1368.0, 'in': 1368.0},
+    3: {'p': 3420.0, 'ic': 2565.0, 'in': 2565.0},
+    4: {'p': 1412.0, 'ic': 1059.0, 'in': 1059.0},
+    5: {'p': 1300.0, 'ic': 975.0,  'in': 975.0},
+    6: {'p': 472.0,  'ic': 354.0,  'in': 354.0},
+    7: {'p': 592.0,  'ic': 444.0,  'in': 444.0}}
 supply_model = {
-    1: {"RoR": 1048.7, "Storage": 0.0,   "PRoR": 106.0, "Solar": 0.0},
-    2: {"RoR":   10.0, "Storage": 0.0,   "PRoR":   0.0, "Solar": 20.0},
-    3: {"RoR":  441.8, "Storage": 480.0, "PRoR":   0.0, "Solar": 25.0},
-    4: {"RoR":  466.2, "Storage": 500.0, "PRoR":  25.0, "Solar": 0.0},
-    5: {"RoR":  178.0, "Storage": 0.0,   "PRoR":  60.5, "Solar": 0.0},
-    6: {"RoR":   20.0, "Storage": 0.0,   "PRoR":   0.0, "Solar": 0.0},
-    7: {"RoR":   38.0, "Storage": 0.0,   "PRoR":   0.0, "Solar": 0.0}
+    1: {'RoR': 4456.89, 'Storage': 955.05, 'PRoR': 318.35, 'Solar': 636.70},
+    2: {'RoR': 730.40,  'Storage': 156.51, 'PRoR': 52.17,  'Solar': 104.34},
+    3: {'RoR': 7532.27, 'Storage':1614.06, 'PRoR':538.02,  'Solar':1076.04},
+    4: {'RoR': 3675.23, 'Storage': 787.55, 'PRoR':262.52,  'Solar': 525.03},
+    5: {'RoR': 2342.57, 'Storage': 501.98, 'PRoR':167.33,  'Solar': 334.65},
+    6: {'RoR': 283.51,  'Storage': 60.75,  'PRoR':20.25,   'Solar': 40.50},
+    7: {'RoR': 474.12,  'Storage':101.60,  'PRoR':33.87,   'Solar': 67.73}
 }
 
 demand = {i: {"p": 0, "ic": 0, "in": 0} for i in range(1, 8)}
 supply = {i: {"RoR": 0.0, "Storage": 0.0, "PRoR": 0.0, "Solar": 0.0} for i in range(1, 8)}
 
-demand_day = {j:{
-    i: {"p": 0, "ic": 0, "in":0} for i in range(1, 8)} for j in range(1,25)}
-
-supply_day = {j:{
-    i: {"RoR": 0.0, "Storage": 0.0, "PRoR": 0.0, "Solar": 0.0} for i in range(1, 8)} for j in range(1,25)}
+demand_day = {
+    i:0.0 for i in range(1, 8)}
+supply_day = {
+    i: 0.0 for i in range(1, 8)}
 
 initialized_supply = {i: False for i in range(1, 8)}
 initialized_demand = {i: False for i in range(1, 8)}
-
-
 
 times = {
     "y":2082,
@@ -47,6 +43,7 @@ times = {
 }
 
 w = [cal.weather(times) for _ in range(7)]
+
 
 def generator(prev_value, max_cap, id, dors, factor=0.2):
     if dors == "s":
@@ -69,6 +66,9 @@ def generator(prev_value, max_cap, id, dors, factor=0.2):
         
     return round(val, 2)
 
+@app.route('/assets/<path:filename>')
+def serve_assets(filename):
+    return send_from_directory('templates/assets', filename)
 
 @app.route("/")
 def index():
@@ -96,13 +96,13 @@ def supply_data():
         weather_today = w[a - 1]
 
         if weather_today == "sunny":
-            factor1, factor2 = -0.2, 0.5
+            factor1, factor2 = -0.02, 0.05
         elif weather_today == "rainy":
-            factor1, factor2 = 0.4, -0.2
+            factor1, factor2 = 0.04, -0.02
         elif weather_today == "cloudy":
-            factor1, factor2 = 0.2, -0.2
+            factor1, factor2 = 0.02, -0.02
         elif weather_today == "cold":
-            factor1, factor2 = -0.1, -0.1
+            factor1, factor2 = -0.01, -0.01
         else:
             factor1, factor2 = 0.0, 0.0 
 
@@ -123,22 +123,34 @@ def demand_data():
         weather_today = w[a - 1]
 
         if weather_today == "sunny":
-            factor1, factor2 = 0.4, 0.4
+            factor1, factor2 = 0.04, 0.04
         elif weather_today == "rainy":
-            factor1, factor2 = -0.2, -0.1
+            factor1, factor2 = -0.02, -0.01
         elif weather_today == "cloudy":
-            factor1, factor2 = -0.2, -0.1
+            factor1, factor2 = -0.02, -0.01
         elif weather_today == "cold":
-            factor1, factor2 = -0.3, 0.5
+            factor1, factor2 = -0.03, 0.05
         else:
             factor1, factor2 = 0.0, 0.0
 
-        if 17 <= times <= 19:
-            factor1 += 0.2  
+        h = times["h"]
+
+        if h in range(1,7):
+            factor1 -= 0.04
+            factor2 -= 0.01
+        elif h in range(7,13):
+            factor1 += 0.06
+            factor2 += 0.01
+        elif h in range(13,18):
+            factor1 -= 0.01
+            factor2 += 0.01
+        else:
+            factor1 += 0.06 
+            factor2 -=0.01
 
         if cal.holiday(times):
-            factor1 += 0.2
-            factor2 -= 0.2
+            factor1 += 0.02
+            factor2 -= 0.02
 
         demand[a]["p"] = generator(demand[a]["p"], demand_model[a]["p"], a, "d", factor=factor1)
         demand[a]["ic"] = generator(demand[a]["ic"], demand_model[a]["ic"], a, "d", factor=factor2)
@@ -150,13 +162,15 @@ def demand_data():
 
 @app.route("/get-demand")
 def get_demand():
-    global demand_day
-    return jsonify(demand)
+    global demand
+    demand_day = demand["p"] + demand["ic"] + demand["in"]
+    return jsonify(demand_day)
 
 @app.route("/get-supply")
 def get_supply():
-    global supply_day
-    return jsonify(supply)
+    global supply
+    supply_day = supply["RoR"] + supply["PRoR"] + supply["Storage"] + supply["Solar"]
+    return jsonify(supply_day)
 
 
 if __name__ == "__main__":
