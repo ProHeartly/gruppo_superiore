@@ -552,6 +552,91 @@ function showProvinceInfo(message) {
   }, 2000);
 }
 
-setInterval(() => {
-  updateDataValues(randInt(400, 650), randInt(450, 700), randInt(550, 800));
-}, 2500);
+
+
+async function updateFromSim(){
+  try {
+    const dres = await fetch("/get-demand");
+    const sres = await fetch("/get-supply");
+    const djson = await dres.json();
+    const sjson = await sres.json();
+    if(djson && djson.latest){
+      updateDataValues(djson.latest.residential, djson.latest.industrial, djson.latest.commercial);
+    }
+  } catch(e){
+    console.error("Fetch sim data failed", e);
+  }
+}
+
+setInterval(updateFromSim, 1500);
+updateFromSim();
+
+function sendMail(){
+ console.log('sendMail called');
+ // ... rest of function ...
+}
+ function sendMail() {
+ const name = document.getElementById("name");
+ const email = document.getElementById("email");
+ const subject = document.getElementById("subject");
+ const message = document.getElementById("message");
+ const formMsg = document.getElementById("formMessage");
+
+ // --- Basic validation ---
+ if (!name.value.trim() || !email.value.trim() || !subject.value.trim() || !message.value.trim()) {
+ formMsg.innerHTML = `
+ <div class="error-msg">
+ <i class="fa-solid fa-circle-xmark"></i>
+ Please fill out all fields before sending.
+ </div>
+ `;
+ return;
+ }
+
+ const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
+ if (!email.value.match(emailPattern)) {
+ formMsg.innerHTML = `
+ <div class="error-msg">
+ <i class="fa-solid fa-circle-xmark"></i>
+ Please enter a valid email address.
+ </div>
+ `;
+ return;
+ }
+
+ // --- Show loading state ---
+ formMsg.innerHTML = `
+ <div class="loading-msg">
+ <i class="fa-solid fa-spinner fa-spin"></i>
+ Sending your message...
+ </div>
+ `;
+
+ // --- Send email via EmailJS ---
+ const params = {
+ name: name.value,
+ email: email.value,
+ subject: subject.value,
+ message: message.value,
+ };
+
+ emailjs.send("service_q2crn67", "template_exjilfu", params)
+ .then(() => {
+ formMsg.innerHTML = `
+ <div class="success-msg">
+ <i class="fa-solid fa-circle-check"></i>
+ Thanks for contacting us! We will review your message soon.
+ </div>
+ `;
+ document.getElementById("contactForm").reset();
+ })
+ .catch((err) => {
+ formMsg.innerHTML = `
+ <div class="error-msg">
+ <i class="fa-solid fa-circle-xmark"></i>
+ Oops! Something went wrong. Please try again later.
+ </div>
+ `;
+ console.error("EmailJS error:", err);
+ });
+}

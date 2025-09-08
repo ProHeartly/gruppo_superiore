@@ -9,6 +9,16 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="assets/styles.css">
     <script src="assets/script.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "V3WRHyKUotYYffEJJ",
+      });
+   })();
+</script>
 
 </head>
 <body>
@@ -24,7 +34,7 @@
                     <li><a href="#" class="nav-link">Home</a></li>
                     <li><a href="#Simulation" class="nav-link">Simulation</a></li>
                     <li><a href="#Charts" class="nav-link">Charts</a></li>
-                    <li><a href="#About" class="nav-link">About</a></li>
+                    <li><a href="#team" class="nav-link">About</a></li>
                     <button><li><a href="#contactus" class="nav-link">Let's Talk</a></li></button>
                 </ul>
             </nav>
@@ -472,27 +482,182 @@
             </section>
         </div>
     </main>
-    <section id="contactus">
-        <div class="contact-section">
-            <span class="contr">Contact Us<hr></span>
-            <div class="left-contact">
-               <h2>Front End<span>Name - Kaushal Das</span><span>Email - kaushaldas879@gmail.com</span>
-                </h2>
-            </div>
-             <div class="middle-contact">
-                <h2>Back End<span>Name - Rasim Mahatoh</span><span>Email - proheartly@gmail.com</span></h2>
-            </div>
-            <div class="right-contact">
-            <h2>Others<span>Name - Evan Acharya / Prayush Joshi</span><span>Email - animelight008@gmail.com / </span>
-            <span>joshi.prayush7013@gmail.com</h2>
-            </div>
-            </div>
-    <section id="About">
-        <footer class="footer">
-        <div class="container">
-            <p>Nepal Energy Management System | All Rights Reserved | &copy; 2025</p>
+        <!-- Contact Section -->
+  <section id="contactus" class="contact-section">
+    <!-- Animated Background -->
+    <div class="contact-bg">
+       <span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- Foreground Content -->
+    <div class="contact-container">
+      <!-- Left: Contact Form -->
+      <div class="contact-form-area">
+        <h2>💬 Let’s Talk</h2>
+        <p>Got a project idea, partnership request, or need support? Fill out the form and we’ll connect with you quickly.</p>
+
+<form id="contactForm" class="contact-form">
+  <div class="form-group">
+    <i class="fa-solid fa-user icon"></i>
+    <input id="name" name="name" type="text" required />
+    <label>Your Name</label>
+  </div>
+  <div class="form-group">
+    <i class="fa-solid fa-envelope icon"></i>
+    <input id="email" name="email" type="email" required />
+    <label>Your Email</label>
+  </div>
+  <div class="form-group">
+    <i class="fa-solid fa-list icon"></i>
+    <select id="subject" name="subject" required>
+      <option disabled selected>Choose a subject</option>
+      <option>General Inquiry</option>
+      <option>Business Proposal</option>
+      <option>Partnership</option>
+      <option>Technical Support</option>
+    </select>
+    <label>Subject</label>
+  </div>
+  <div class="form-group">
+    <i class="fa-solid fa-message icon"></i>
+    <textarea id="message" name="message" required></textarea>
+    <label>Your Message</label>
+  </div>
+
+  <!-- note: type="button" prevents the form from auto-submitting and reloading -->
+  <button type="button" class="send-btn" onclick="sendMail()">
+    <span>Send Message</span>
+    <i class="fa-solid fa-paper-plane"></i>
+  </button>
+</form>
+
+<div id="formMessage" class="form-message"></div>
+
+        <p id="formMessage" class="hidden"></p>
+      </div>
+
+      <!-- Right: Contact Info -->
+      <div class="contact-info">
+        <div class="info-card">
+          <i class="fa-solid fa-envelope-circle-check"></i>
+          <h3>Email Us</h3>
+          <p>support@nepalems.com</p>
         </div>
-    </footer>
+        <div class="info-card">
+          <i class="fa-solid fa-phone-volume"></i>
+          <h3>Call Us</h3>
+          <p>+977-9800000000</p>
+        </div>
+        <div class="info-card">
+          <i class="fa-solid fa-location-dot"></i>
+          <h3>Visit Us</h3>
+          <p>Kathmandu, Nepal</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="team" class="team-section">
+  <h2 class="team-title"><i class="fas fa-users"></i> Meet The Team</h2>
+
+  <div class="team-container">
+    <!-- Frontend -->
+    <div class="team-box">
+      <h3>Frontend Development</h3>
+      <p class="team-name">Kaushal Das</p>
+      <p class="team-email">
+        <a href="mailto:kaushaldas879@gmail.com">kaushaldas879@gmail.com</a>
+      </p>
+      <div class="team-socials">
+        <a href="#" class="team-icon"><i class="fab fa-html5"></i></a>
+        <a href="#" class="team-icon"><i class="fab fa-css3-alt"></i></a>
+        <a href="#" class="team-icon"><i class="fab fa-js"></i></a>
+      </div>
+    </div>
+
+    <!-- Backend -->
+    <div class="team-box">
+      <h3>Backend Development</h3>
+      <p class="team-name">Rasim Mahatoh</p>
+      <p class="team-email">
+        <a href="mailto:proheartly@gmail.com">proheartly@gmail.com</a>
+      </p>
+      <div class="team-socials">
+        <a href="#" class="team-icon"><i class="fab fa-node-js"></i></a>
+        <a href="#" class="team-icon"><i class="fas fa-database"></i></a>
+        <a href="#" class="team-icon"><i class="fab fa-python"></i></a>
+      </div>
+    </div>
+
+    <!-- Others -->
+    <div class="team-box">
+      <h3>Others</h3>
+      <p class="team-name">Evan Acharya</p>
+      <p class="team-email">
+        <a href="mailto:animelight@gmail.com">animelight@gmail.com</a>
+      </p>
+      <p class="team-name">Pryaush Joshi</p>
+      <p class="team-email">
+        <a href="mailto:joshi.prayush70113.com">joshi.prayush70113@gmail.com</a>
+      </p>
+    </div>
+  </div>
 </section>
+
+<footer class="ems-footer">
+  <div class="footer-container">
+    <!-- About -->
+    <div class="footer-column about">
+      <h3>Nepal EMS</h3>
+      <p>
+        A modern Energy Management System for Nepal.  
+        Track, simulate and analyze energy data for a sustainable future.
+      </p>
+      <p><i class="fas fa-map-marker-alt"></i> Kathmandu, Nepal</p>
+      <p><i class="fas fa-envelope"></i> contact@emsnepal.com</p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-column links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#About">About</a></li>
+        <li><a href="#Simulation">Simulation</a></li>
+        <li><a href="#Charts">Charts</a></li>
+        <li><a href="#Team">Team</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact / Social -->
+    <div class="footer-column contact">
+      <h4>Connect With Us</h4>
+      <p><i class="fas fa-phone"></i> +977-9800000000</p>
+      <p><i class="fas fa-envelope"></i> support@emsnepal.com</p>
+      <div class="footer-socials">
+        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2025 EMS Nepal. All rights reserved.</p>
+    <div class="footer-policy">
+      <a href="#">Privacy Policy</a> | 
+      <a href="#">Terms of Service</a> | 
+      <a href="#">Code of Conduct</a>
+    </div>
+  </div>
+</footer>
+</section>
+
+    
 </body>
 </html>
