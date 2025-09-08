@@ -29,6 +29,8 @@ scroll-behavior: smooth;
 
         html {
   scroll-behavior: smooth;
+  scrollbar-width:  thick;
+  scrollbar-color: var(--primary-purple) transparent;
 }
 
         .container {
